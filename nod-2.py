@@ -94,8 +94,8 @@ class Character(object):
         self.speed = val
 
     def set_pos(self):
-        self.pos[0] += self.speed * np.cos(np.radians(self.angle))
-        self.pos[1] += self.speed * np.sin(np.radians(self.angle))
+        self.pos[0] += self.speed * np.cos(np.radians(self.angle+90))
+        self.pos[1] += self.speed * np.sin(np.radians(self.angle+90))
 
     def draw(self):
         self.T = translation_mat(self.pos[0], self.pos[1])
@@ -105,9 +105,9 @@ class Character(object):
 
         for vec2d in self.geometry:
             vec3d = vec2d_to_vec3d(vec2d)
-            vec3d = dot(self.R, vec3d)
+            if isinstance(self, Player):
+                vec3d = dot(self.R, vec3d)
             vec3d = dot(self.T, vec3d)
-            vec3d = dot(self.S, vec3d)
             vec2d = vec3d_to_vec2d(vec3d)
             x_values.append(vec2d[0])
             y_values.append(vec2d[1])
